@@ -1,0 +1,13 @@
+104b05916cdb193bf0a718ef11f36abf *DESCRIPTION
+386d421d262de460ec1ec569ef908b78 *LICENSE
+542a74c3c4b4d91846f69c2cba491729 *NAMESPACE
+659b01ef14947ccbebb9aabd5e020700 *NEWS.md
+3bfa742d6d36872f15bdfe151026cc88 *R/0_imports.R
+7f19c29877d1fa4199282fab11d66382 *R/messages.R
+e749096c753d9f2163f4fe429bf0eda4 *R/misc.R
+201c5c2f0cab15ae4d6c59d01a6d30c5 *R/use.R
+1be197bd1d21163561bd3c809a5d5dbd *inst/WORDLIST
+7c5f087e8ed18d944754de24306cfd9d *man/templates.Rd
+0622a97a2aaa3c342f09636052c2d7f5 *tests/spelling.R
+b629fcba720d0c2fa213040a062f2d45 *tests/testthat.R
+f7ea544a155cdec8f123a60b6b376e03 *tests/testthat/test-templates.R
