@@ -7,6 +7,9 @@
 \alias{use_ranger}
 \alias{use_earth}
 \alias{use_cubist}
+\alias{use_kernlab_svm_rbf}
+\alias{use_kernlab_svm_poly}
+\alias{use_C5.0}
 \title{Functions to create boilerplate code for specific models}
 \usage{
 use_glmnet(
@@ -15,7 +18,8 @@ use_glmnet(
   prefix = "glmnet",
   verbose = FALSE,
   tune = TRUE,
-  colors = TRUE
+  colors = TRUE,
+  clipboard = FALSE
 )
 
 use_xgboost(
@@ -24,7 +28,8 @@ use_xgboost(
   prefix = "xgboost",
   verbose = FALSE,
   tune = TRUE,
-  colors = TRUE
+  colors = TRUE,
+  clipboard = FALSE
 )
 
 use_kknn(
@@ -33,7 +38,8 @@ use_kknn(
   prefix = "kknn",
   verbose = FALSE,
   tune = TRUE,
-  colors = TRUE
+  colors = TRUE,
+  clipboard = FALSE
 )
 
 use_ranger(
@@ -42,7 +48,8 @@ use_ranger(
   prefix = "ranger",
   verbose = FALSE,
   tune = TRUE,
-  colors = TRUE
+  colors = TRUE,
+  clipboard = FALSE
 )
 
 use_earth(
@@ -51,7 +58,8 @@ use_earth(
   prefix = "earth",
   verbose = FALSE,
   tune = TRUE,
-  colors = TRUE
+  colors = TRUE,
+  clipboard = FALSE
 )
 
 use_cubist(
@@ -60,7 +68,38 @@ use_cubist(
   prefix = "cubist",
   verbose = FALSE,
   tune = TRUE,
-  colors = TRUE
+  colors = TRUE,
+  clipboard = FALSE
+)
+
+use_kernlab_svm_rbf(
+  formula,
+  data,
+  prefix = "kernlab",
+  verbose = FALSE,
+  tune = TRUE,
+  colors = TRUE,
+  clipboard = FALSE
+)
+
+use_kernlab_svm_poly(
+  formula,
+  data,
+  prefix = "kernlab",
+  verbose = FALSE,
+  tune = TRUE,
+  colors = TRUE,
+  clipboard = FALSE
+)
+
+use_C5.0(
+  formula,
+  data,
+  prefix = "C50",
+  verbose = FALSE,
+  tune = TRUE,
+  colors = TRUE,
+  clipboard = FALSE
 )
 }
 \arguments{
@@ -80,7 +119,10 @@ the printed code explaining why certain lines are used.}
 printed.}
 
 \item{colors}{A single logical for coloring warnings and code snippets that
-require the users attention.}
+require the users attention (ignored when \code{colors = FALSE})}
+
+\item{clipboard}{A single logical for whether the code output should be
+sent to the clip board or printed in the console.}
 }
 \value{
 Invisible \code{NULL} but code is printed to the console.
@@ -101,8 +143,10 @@ The syntax is opinionated and should not be considered the exact answer for
 every data analysis. It has reasonable defaults.
 }
 \examples{
-library(palmerpenguins)
-data(penguins)
-use_glmnet(species ~ ., data = penguins)
-use_glmnet( body_mass_g ~ ., data = penguins, verbose = TRUE, prefix = "gunter")
+library(modeldata)
+data(ad_data)
+use_glmnet(Class ~ ., data = ad_data)
+
+data(Sacramento)
+use_glmnet(price ~ ., data = Sacramento, verbose = TRUE, prefix = "sac_homes")
 }

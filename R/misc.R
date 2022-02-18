@@ -83,22 +83,22 @@ add_comment <- function(base, value, add = TRUE, colors = TRUE) {
 }
 add_steps_dummy_vars <- function(base, hot = FALSE, add = FALSE, colors = TRUE) {
   base <- base %>%
-    pipe_value(step_novel(all_nominal(), -all_outcomes()))
+    pipe_value(step_novel(all_nominal_predictors()))
   if (hot) {
     base <- base %>%
       add_comment(dummy_hot_msg, add, colors = colors) %>%
-      pipe_value(step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE))
+      pipe_value(step_dummy(all_nominal_predictors(), one_hot = TRUE))
   } else {
     base <- base  %>%
       add_comment(dummy_msg, add, colors = colors) %>%
-      pipe_value(step_dummy(all_nominal(), -all_outcomes()))
+      pipe_value(step_dummy(all_nominal_predictors()))
   }
   base
 }
 add_steps_normalization <- function(base) {
   base %>%
     pipe_value(step_zv(all_predictors())) %>%
-    pipe_value(step_normalize(all_predictors(), -all_nominal()))
+    pipe_value(step_normalize(all_numeric_predictors()))
 }
 factor_check <- function(base, rec, add, colors = TRUE) {
   var_roles <- summary(rec)
@@ -107,8 +107,7 @@ factor_check <- function(base, rec, add, colors = TRUE) {
     purrr::map_lgl(rec$template %>% dplyr::select(dplyr::one_of(nominal)),
                    rlang::is_character)
   if (any(is_str)) {
-    nominal <- rlang::syms(nominal[is_str])
-    selector <- rlang::expr(one_of(!!!nominal))
+    selector <- rlang::expr(one_of(!!!nominal[is_str]))
     step_expr <- rlang::expr(step_string2factor(!!selector))
     base <-
       base %>%
@@ -195,4 +194,46 @@ initial_recipe_call <- function(cl) {
   rec_cl
 }
 
+output_loc <- function(clipboard) {
+  if (clipboard) {
+    res <- tempfile(pattern = "usemodels_")
+  } else {
+    res <- ""
+  }
+  res
+}
 
+route <- function(x, path, ...) {
+  cat(x, "\n\n", file = path, append = path != "", ...)
+  invisible(NULL)
+}
+
+clipboard_output <- function(pth) {
+  if (pth == "") {
+    return(invisible(NULL))
+  }
+  code <- readLines(pth)
+  clipr::write_clip(code, object_type = "character")
+  cli::cli_alert_success("code is on the clipboard.")
+  invisible(NULL)
+}
+
+check_color <- function(cls, clip) {
+  if (cls & clip) {
+    cls <- FALSE
+  }
+  cls
+}
+
+check_clipboard <- function(clipboard) {
+  if (!clipboard) {
+    return(invisible(NULL))
+  }
+  # from reprex_clipboard
+  y <- clipr::clipr_available()
+  if (isFALSE(y)) {
+    clipr::dr_clipr()
+    rlang::abort("Please use `clipboard = FALSE`")
+  }
+  invisible(NULL)
+}
